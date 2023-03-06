@@ -1,0 +1,172 @@
+﻿<style>
+
+    .transparent {
+        display: none;
+    }
+
+    form {
+        border-radius: 5px;
+        background-color: #71C5EB;
+    }
+
+    table {
+        margin-top: 1%;
+        margin-left: 0%;
+        width: 100%;
+        table-layout: auto;
+        border: 2px solid black;
+        border-radius: 5px;
+    }
+
+    tr {
+        margin-left: 0%;
+        width: 100%;
+    }
+
+    .head-table {
+        margin-left: 0%;
+        width: 100%;
+        margin-top: 5%;
+        text-align: center;
+        background-color: #71C5EB;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    th, td {
+        margin-left: 0%;
+        width: 33%;
+        overflow: hidden;
+    }
+
+    .father-label {
+        margin-top:1%;
+        margin-left: 1%;
+        background-color: white;
+        width: 99%;
+        border-radius: 5px;
+    }
+
+    .label-label {
+        float: left;
+        width: auto;
+    }
+
+    .input-label {
+        margin-left: 1%;
+        width: 85%;
+        border-radius: 5px;
+        border: none;
+        border-left: 7px solid #71C5EB;
+        float: left;
+        border-radius: 0px;
+    }
+
+    .upload-button {
+        margin-top: 2%;
+        background-color: black;
+        color: white;
+    }
+
+    .back-color {
+        background-color: #71C5EB;
+    }
+
+
+
+</style>
+
+@model WebApplication_TareaII_MVC.Models.Edificio.registro_edificios
+
+@{
+    Layout = "_Layout";
+}
+
+<script type="text/javascript">
+    function check_Empty() {
+        //change1();
+        //string ids = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+        let flag = false;
+        let ids = ["nombreEdificioDisponible"];
+        for (let idnumber = 0; idnumber < ids.length; idnumber++) {
+            if (document.getElementById(ids[idnumber]).value == " " || document.getElementById(ids[idnumber]).value == "" || document.getElementById(ids[idnumber]).value == null) {
+                flag = true;
+                break;
+            }
+        }
+        document.getElementById("send-sent").disabled = flag;
+
+        if (flag == true) {
+            document.getElementById("send-sent").style.display = "none";
+        } else {
+            document.getElementById("send-sent").style.display = "block";
+        }
+
+    }
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/Libraries/CSS/pequena.css" />
+    <title>Index</title>
+</head>
+
+<body onload="check_Empty()">
+    <form method="post" enctype="multipart/form-data" asp-controller="Edificio" asp-action="Registrar">
+        <table>
+            <input type="number" class="transparent" asp-for="idEdificioDisponible" value="@TempData["key_Edificio"]" />
+            <tr class="father-label">
+                <td><label class="label-label">Nombre Edificio </label><input type="text" class="input-label" id="nombreEdificioDisponible" asp-for="nombreEdificioDisponible" value="@TempData["Nombre_Edificio"]" maxlength="300" onkeyup="check_Empty()" /></td>
+            </tr>
+            <tr>
+                <td><input class="upload-button" id="send-sent"  type="submit" value="Guardar" /></td>
+            </tr>
+        </table>
+    </form>
+
+    @{
+    if(@ViewBag.registro_edificios != null)
+    {
+            <label class="head-table">Registro Edificios Disponibles</label>
+        <table>
+            <tr>
+                <th>Nombre Edificio</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+            @{int counter=0;}
+            
+            @foreach (WebApplication_TareaII_MVC.Models.Edificio.registro_edificios Grupo in ViewBag.registro_edificios)
+            {
+                if (Grupo != null)
+                {
+                    if (counter % 2 == 0)
+                    {
+                        <tr>
+                            <td class="back-color">@Grupo.nombreEdificioDisponible</td>
+                            <td class="back-color"><a asp-action="Editar" asp-controller="Edificio" asp-route-id="@Grupo.idEdificioDisponible">Editar</a></td>
+                            <td class="back-color"><a asp-action="Eliminar" asp-controller="Edificio" asp-route-id="@Grupo.idEdificioDisponible" onclick="return confirm('¿Seguro que desea eliminar?');">Eliminar</a></td>
+                        </tr>
+                            
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@Grupo.nombreEdificioDisponible</td>
+                            <td><a asp-action="Editar" asp-controller="Edificio" asp-route-id="@Grupo.idEdificioDisponible">Editar</a></td>
+                            <td><a asp-action="Eliminar" asp-controller="Edificio" asp-route-id="@Grupo.idEdificioDisponible" onclick="return confirm('¿Seguro que desea eliminar?');">Eliminar</a></td>
+                        </tr>
+                    }
+                        counter++;
+                }
+            }
+        
+        </table>
+    }
+    }
+</body>
+</html>

@@ -1,0 +1,333 @@
+﻿<style>
+
+    .transparent {
+        display: none;
+    }
+
+    
+    table {
+        margin-top: 1%;
+        margin-left: 0%;
+        width: 100%;
+        table-layout: auto;  
+        
+    }
+
+    tr {
+        margin-left: 0%;
+        width: 100%;
+    }
+
+    .head-table {
+        margin-left: 0%;
+        width: 100%;
+        margin-top: 5%;
+        text-align: center;
+        background-color: #71C5EB;
+    }
+
+    th {
+        text-align: center;
+    }
+    tbody
+    {
+        width:100%
+    }
+    th, td {
+        margin-left: 0%;
+        width: 15%;
+        overflow: hidden;
+    }
+    .to-left
+    {
+        margin-top:0%;
+        float:left;
+        margin-left:0%;
+        width:50%;
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 5px;
+        height: 100%;
+    }
+    .father-label {
+        margin-left: 0%;
+        width: 100%;
+    }
+
+    .to-width
+    {
+        width:100%;
+        margin-left:0%;
+        background-color: white;
+    }
+    .label-label {
+        width: 39%;
+    }
+
+    .label-label1 {
+        width: 29%;
+    }
+
+    .label-label2 {
+        width: 10%;
+    }
+    .input-label {
+        margin-left: 0%;
+        width: 59%;
+        border-radius: 5px;
+        border: none;
+        border-left: 7px solid #71C5EB;
+        background-color: #71C5EB;
+        border-radius: 5px;
+        
+    }
+    option
+    {
+        text-align: center;
+    }
+    .input-label2 {
+        margin-right:2%;
+        float: right;
+    }
+    .upload-button {
+        margin-top: 1%;
+        margin-left:1%;
+        background-color: black;
+        color: white;
+        height: 2%;
+    }
+
+    .to-width
+    {
+        margin-top:1%;
+        margin-left:0%;
+        width:100%;
+    }
+
+    .father-blocks {
+        width: 100%;
+        height: 20%;
+    }
+    .back-color {
+        background-color: #71C5EB;
+    }
+
+    .table1
+    {
+        border: 2px solid black;
+    }
+  
+</style>
+
+<script type="text/javascript">
+    function start()
+    { 
+        change1();
+        change2();
+        check_Empty();
+    }
+    function change1()
+    { 
+        if (document.getElementById("fechaNacimientoEmpleado").value != "") {
+            document.getElementById("fecha1").value = document.getElementById("fechaNacimientoEmpleado").value;
+            check_Empty();
+        }
+    }
+    function change2() {
+        if (document.getElementById("fechaIngresoEmpleado").value != "") 
+        {
+            document.getElementById("fecha2").value = document.getElementById("fechaIngresoEmpleado").value;
+            check_Empty();
+        }
+    }
+    function check_Empty() {
+        //change1();
+        //string ids = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+        let flag = false;
+        let ids = ["nombreEmpleado", "fecha1", "fecha2", "cedulaEmpleado", "contactoEmpleado", "edificioQuePerteneceEmpleado", "salarioHoraEmpleado"];
+        for (let idnumber = 0; idnumber < ids.length; idnumber++) {
+            if (document.getElementById(ids[idnumber]).value == " " || document.getElementById(ids[idnumber]).value == "" || document.getElementById(ids[idnumber]).value == null) {
+                flag = true;
+                break;
+            }
+        }
+        document.getElementById("send-sent").disabled = flag;
+
+        if (flag == true) {
+            document.getElementById("send-sent").style.display = "none";
+        } else {
+            document.getElementById("send-sent").style.display = "block";
+        }
+
+    }
+</script>
+@model WebApplication_TareaII_MVC.Models.Empleado.registro_empleados
+
+@{
+    Layout = "_Layout";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+
+<body onload="start()">
+    <div class="father-blocks">
+    <form method="post" enctype="multipart/form-data" asp-controller="Empleado" asp-action="Registrar">
+        <input type="number" class="transparent" asp-for="idEmpleado" value="@TempData["idEmpleado"]" />
+            <div class="to-left">
+                <table>
+                <tr class="to-width">
+                    <div class="to-width">
+                    <label class="label-label">Nombre Empleado </label>
+                            <input class="input-label" type="text" id="nombreEmpleado" asp-for="nombreEmpleado" value="@TempData["nombreEmpleado"]" maxlength="60" onkeyup="check_Empty()" onchange="check_Empty()" />
+                    </div>
+                </tr>
+                <tr class="to-width">
+                    <div class="to-width">
+                        <label class="label-label">Fecha Nacimiento </label>
+                            <input readonly type=text class="label-label1" id="fecha1" asp-for="fechaNacimientoEmpleado" value=@TempData["fechaNacimientoEmpleado"]/>
+                            <input class="input-label2" type="date" id="fechaNacimientoEmpleado" runat="server" asp-format="{0:yyyy-MM-dd}" value=@TempData["fechaNacimientoEmpleado1"] onchange="change1()" />
+                     </div>
+                </tr>
+                <tr class="to-width">
+                    <div class="to-width">
+                        <label class="label-label">Cedula Empleado </label>
+                            <input class="input-label" type="number" id="cedulaEmpleado" runat="server" asp-for="cedulaEmpleado" value="@TempData["cedulaEmpleado"]" onkeyup="check_Empty()" onchange="check_Empty()" />
+                    </div>
+                </tr>
+                <tr class="to-width">
+                    <div class="to-width">
+                        <label class="label-label">Contacto Empleado </label>
+                            <input class="input-label" type="text" id="contactoEmpleado" runat="server" asp-for="contactoEmpleado" value="@TempData["contactoEmpleado"]" maxlength="8" onkeyup="check_Empty()" onchange="check_Empty()" />
+                    </div>
+                </tr>
+                </table>
+            </div>
+            <div class="to-left">
+                <table>
+                <tr class="to-width">
+                    <div class="to-width">
+                        <label class="label-label">Fecha Ingreso </label>
+                            <input readonly type=text class="label-label1" id="fecha2" asp-for="fechaIngresoEmpleado" value=@TempData["fechaIngresoEmpleado"] />
+                            <input class="input-label2" type="date" id="fechaIngresoEmpleado" runat="server" asp-format="{0:yyyy-MM-dd}" value=@TempData["fechaIngresoEmpleado1"] onchange="change2()" />
+                    </div>
+                </tr>
+                <tr class="to-width">
+                    <div class="to-width">
+                        <label class="label-label"> Edificio a asignar </label>
+                            <select class="input-label" id="edificioQuePerteneceEmpleado" runat="server" asp-for="edificioQuePerteneceEmpleado" value="@TempData["edificioQuePerteneceEmpleado"]" maxlength="300" onkeyup="check_Empty()" onchange="check_Empty()">
+                                @{
+                                    if (@ViewBag.opciones_edificios != null)
+                                    {
+                                        @foreach (WebApplication_TareaII_MVC.Models.Edificio.registro_edificios Grupo in ViewBag.opciones_edificios)
+                                        {
+                                            if (@TempData["edificioQuePerteneceEmpleado"] != null)
+                                            {
+                                                if (@Grupo.nombreEdificioDisponible == @TempData["edificioQuePerteneceEmpleado"].ToString())
+                                                {
+                                                    <option value="@Grupo.nombreEdificioDisponible" selected>@Grupo.nombreEdificioDisponible</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@Grupo.nombreEdificioDisponible">@Grupo.nombreEdificioDisponible</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="@Grupo.nombreEdificioDisponible">@Grupo.nombreEdificioDisponible</option>
+                                            }
+                     
+                                        }
+                                    }
+                                }
+                            </select>
+                    </div>
+                </tr>
+                <tr class="to-width">
+                    <div class="to-width">
+                        <label class="label-label">Salario hora Empleado </label>
+                            <input class="input-label" type="number" id="salarioHoraEmpleado" runat="server" asp-for="salarioHoraEmpleado" value="@TempData["salarioHoraEmpleado"]" onkeyup="check_Empty()" onchange="check_Empty()" />
+                    </div>
+                </tr>
+                    <tr class="to-width">
+                        <div class="to-width">
+                            <label >  </label>
+                            <input readonly class="transparent" /> 
+                        </div>
+                    </tr>
+                </table>         
+            </div>
+
+            <input class="upload-button" id="send-sent"  type="submit" value="Guardar" />
+    </form>
+    </div>
+   
+    @{
+        if (@ViewBag.registro_empleados != null)
+        {
+            <label class="head-table">Registro Empleados</label>
+            <table class="table1">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Cedula</th>
+                    <th>Contacto</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Edificio</th>
+                    <th>Salario</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                @{
+                    int counter = 0;
+                }
+
+                @foreach (WebApplication_TareaII_MVC.Models.Empleado.registro_empleados Grupo in ViewBag.registro_empleados)
+                {
+                    if (Grupo != null)
+                    {
+                        if (counter % 2 == 0)
+                        {
+                            <tr>
+                                <td class="back-color">@Grupo.nombreEmpleado</td>
+                                <td class="back-color">@Grupo.fechaNacimientoEmpleado</td>
+                                <td class="back-color">@Grupo.cedulaEmpleado</td>
+                                <td class="back-color">@Grupo.contactoEmpleado</td>
+                                <td class="back-color">@Grupo.fechaIngresoEmpleado</td>
+                                <td class="back-color">@Grupo.edificioQuePerteneceEmpleado</td>
+                                <td class="back-color">@Grupo.salarioHoraEmpleado</td>
+                                <td class="back-color"><a asp-action="Editar" asp-controller="Empleado" asp-route-id="@Grupo.idEmpleado">Editar</a></td>
+                                <td class="back-color"><a asp-action="Eliminar" asp-controller="Empleado" asp-route-id="@Grupo.idEmpleado" onclick="return confirm('¿Seguro que desea eliminar?');">Eliminar</a></td>
+                            </tr>
+
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="">@Grupo.nombreEmpleado</td>
+                                <td class="">@Grupo.fechaNacimientoEmpleado</td>
+                                <td class="">@Grupo.cedulaEmpleado</td>
+                                <td class="">@Grupo.contactoEmpleado</td>
+                                <td class="">@Grupo.fechaIngresoEmpleado</td>
+                                <td class="">@Grupo.edificioQuePerteneceEmpleado</td>
+                                <td class="">@Grupo.salarioHoraEmpleado</td>
+                                <td class=""><a asp-action="Editar" asp-controller="Empleado" asp-route-id="@Grupo.idEmpleado">Editar</a></td>
+                                <td class=""><a asp-action="Eliminar" asp-controller="Empleado" asp-route-id="@Grupo.idEmpleado" onclick="return confirm('¿Seguro que desea eliminar?');">Eliminar</a></td>
+                            </tr>
+                        }
+                        counter++;
+                    }
+                }
+
+            </table>
+        }
+    }
+
+</body>
+</html>
