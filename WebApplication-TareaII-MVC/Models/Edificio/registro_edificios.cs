@@ -7,6 +7,7 @@ namespace WebApplication_TareaII_MVC.Models.Edificio
     {
         [Key]
         public int idEdificioDisponible { get; set; }
+
         public string? nombreEdificioDisponible { get; set; }
     }
 }
